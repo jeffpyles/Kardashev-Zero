@@ -1,0 +1,274 @@
+[
+  {
+    "id": "stone_flake",
+    "name": "Stone flake",
+    "kind": "item",
+    "inputs": [
+      {
+        "material": "flint",
+        "quantity": 1
+      }
+    ],
+    "tools": [
+      "river_cobble"
+    ],
+    "laborDays": 0.02,
+    "skill": "knapping",
+    "quality": 0.35,
+    "effects": [
+      {
+        "type": "modify_task",
+        "task": "scavenge",
+        "multiplier": 1.5,
+        "description": "Cut meat and hide off carcasses faster",
+        "yields": null
+      },
+      {
+        "type": "modify_task",
+        "task": "forage_plants",
+        "multiplier": 1.1,
+        "description": "Cut stems and tough plants",
+        "yields": null
+      }
+    ],
+    "prerequisites": [],
+    "seasons": []
+  },
+  {
+    "id": "quartzite_chopper",
+    "name": "Quartzite chopper",
+    "kind": "item",
+    "inputs": [
+      {
+        "material": "quartzite",
+        "quantity": 1.5
+      }
+    ],
+    "tools": [
+      "river_cobble"
+    ],
+    "laborDays": 0.03,
+    "skill": "knapping",
+    "quality": 0.25,
+    "effects": [
+      {
+        "type": "modify_task",
+        "task": "scavenge",
+        "multiplier": 1.3,
+        "description": "Chop through joints and crack long bones for marrow",
+        "yields": null
+      },
+      {
+        "type": "modify_task",
+        "task": "gather_wood",
+        "multiplier": 1.2,
+        "description": "Hack through branches too thick to snap by hand",
+        "yields": null
+      }
+    ],
+    "prerequisites": [],
+    "seasons": []
+  },
+  {
+    "id": "digging_stick",
+    "name": "Digging stick",
+    "kind": "item",
+    "inputs": [
+      {
+        "material": "dead_branches",
+        "quantity": 0.8
+      }
+    ],
+    "tools": [
+      "sandstone"
+    ],
+    "laborDays": 0.15,
+    "skill": "woodworking",
+    "quality": 0.3,
+    "effects": [
+      {
+        "type": "modify_task",
+        "task": "forage_plants",
+        "multiplier": 1.3,
+        "description": "Foragers can pry up deeper roots and tubers, raising the food gathered from plants.",
+        "yields": null
+      }
+    ],
+    "prerequisites": [],
+    "seasons": []
+  },
+  {
+    "id": "hand_drill_fire",
+    "name": "Hand drill fire",
+    "kind": "technique",
+    "inputs": [
+      {
+        "material": "softwood",
+        "quantity": 0.1
+      },
+      {
+        "material": "reed",
+        "quantity": 0.02
+      },
+      {
+        "material": "dry_grass",
+        "quantity": 0.1
+      }
+    ],
+    "tools": [
+      "flint",
+      "sandstone"
+    ],
+    "laborDays": 0.1,
+    "skill": "fire_making",
+    "quality": 0.3,
+    "effects": [
+      {
+        "type": "enable_task",
+        "task": "make_fire",
+        "multiplier": null,
+        "description": "Make fire on demand by spinning a stick against a softwood board: warmth, light, cooking and keeping predators away.",
+        "yields": {
+          "resource": "heat",
+          "perWorkerDay": 1
+        }
+      }
+    ],
+    "prerequisites": [],
+    "seasons": []
+  },
+  {
+    "id": "bark_cord",
+    "name": "Bark cord",
+    "kind": "item",
+    "inputs": [
+      {
+        "material": "inner_bark",
+        "quantity": 0.2
+      }
+    ],
+    "tools": [
+      "stone_flake"
+    ],
+    "laborDays": 0.15,
+    "skill": "fiber_work",
+    "quality": 0.35,
+    "effects": [
+      {
+        "type": "enable_task",
+        "task": "bind_and_tie",
+        "multiplier": null,
+        "description": "Tie and bind things with two-ply inner-bark cord: lashing, bundling, simple carrying slings.",
+        "yields": null
+      },
+      {
+        "type": "modify_task",
+        "task": "carry",
+        "multiplier": 1.2,
+        "description": "Loads tied into bundles with cord are easier to carry.",
+        "yields": null
+      }
+    ],
+    "prerequisites": [
+      "stone_flake"
+    ],
+    "seasons": [
+      "spring"
+    ]
+  },
+  {
+    "id": "bow_drill",
+    "name": "Bow drill",
+    "kind": "item",
+    "inputs": [
+      {
+        "material": "dead_branches",
+        "quantity": 0.6
+      },
+      {
+        "material": "softwood",
+        "quantity": 0.5
+      },
+      {
+        "material": "bark_cord",
+        "quantity": 1
+      }
+    ],
+    "tools": [
+      "stone_flake",
+      "river_cobble"
+    ],
+    "laborDays": 0.3,
+    "skill": "fire_making",
+    "quality": 0.4,
+    "effects": [
+      {
+        "type": "modify_task",
+        "task": "make_fire",
+        "multiplier": 2,
+        "description": "Embers come faster and more reliably than with the hand drill, and with less effort.",
+        "yields": null
+      }
+    ],
+    "prerequisites": [
+      "bark_cord",
+      "stone_flake",
+      "hand_drill_fire"
+    ],
+    "seasons": []
+  },
+  {
+    "id": "replant_wild_grain",
+    "name": "Replanting wild grain",
+    "kind": "technique",
+    "inputs": [
+      {
+        "material": "wild_wheat",
+        "quantity": 1
+      }
+    ],
+    "tools": [],
+    "laborDays": 1,
+    "skill": "cultivation",
+    "quality": 0.3,
+    "effects": [
+      {
+        "type": "enable_task",
+        "task": "tend_grain_patch",
+        "multiplier": null,
+        "description": "Sow kept-back wild grain in loose soil near camp in autumn and gather a small, patchy crop near home the next early summer, saving walks to distant stands.",
+        "yields": null
+      }
+    ],
+    "prerequisites": [],
+    "seasons": [
+      "autumn"
+    ]
+  },
+  {
+    "id": "feed_wolves_near_camp",
+    "name": "Feeding wolves near camp",
+    "kind": "technique",
+    "inputs": [
+      {
+        "material": "meat",
+        "quantity": 1
+      }
+    ],
+    "tools": [],
+    "laborDays": 0.5,
+    "skill": "animal_handling",
+    "quality": 0.2,
+    "effects": [
+      {
+        "type": "enable_task",
+        "task": "provision_camp_wolves",
+        "multiplier": null,
+        "description": "Leave scraps and raise found pups so a few wild wolves linger near camp; they sometimes raise an alarm at approaching predators, and over many generations the boldest, calmest lines grow more tolerant of people.",
+        "yields": null
+      }
+    ],
+    "prerequisites": [],
+    "seasons": []
+  }
+]

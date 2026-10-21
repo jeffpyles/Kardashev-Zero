@@ -22,6 +22,13 @@ export const EffectSchema = z.object({
   multiplier: z.number().nullable(),
   /** One line on what changes, for the player. */
   description: z.string(),
+  /**
+   * For enable_task: what one worker-day of the new task yields, so the
+   * simulation can run it. resource is a material id (quantity in kg) or
+   * "heat" (quantity is hearths kept burning). Null for modify_task, or when
+   * the task yields nothing the simulation tracks.
+   */
+  yields: z.object({ resource: z.string(), perWorkerDay: z.number() }).nullable(),
 });
 export type Effect = z.infer<typeof EffectSchema>;
 

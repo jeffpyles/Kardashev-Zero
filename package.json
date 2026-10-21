@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "A 4X / factory game where players invent every technology themselves, judged by an AI game master.",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "harness": "tsx harness/run.ts"
   },
@@ -21,7 +24,9 @@
   "devDependencies": {
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   },
   "private": true,
   "type": "module"

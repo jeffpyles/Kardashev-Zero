@@ -29,7 +29,7 @@ function known(id: string, kind: Recipe["kind"], skill: string, task: string, ef
     laborDays: 0.1,
     skill,
     quality: 0.4,
-    effects: [{ type: "enable_task", task, multiplier: null, description: effect }],
+    effects: [{ type: "enable_task", task, multiplier: null, description: effect, yields: null }],
     prerequisites: [],
     seasons: [],
   };
@@ -56,8 +56,8 @@ const stoneFlakePrecedent: Recipe = {
   skill: "knapping",
   quality: 0.35,
   effects: [
-    { type: "modify_task", task: "scavenge", multiplier: 1.5, description: "Cut meat and hide off carcasses faster" },
-    { type: "modify_task", task: "forage_plants", multiplier: 1.1, description: "Cut stems and tough plants" },
+    { type: "modify_task", task: "scavenge", multiplier: 1.5, description: "Cut meat and hide off carcasses faster", yields: null },
+    { type: "modify_task", task: "forage_plants", multiplier: 1.1, description: "Cut stems and tough plants", yields: null },
   ],
   prerequisites: [],
   seasons: [],

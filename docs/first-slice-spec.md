@@ -91,8 +91,8 @@ No wheel, draft animals, writing or smelting.
 ## Build order
 
 1. **This spec.**
-2. **Invention-loop harness (in progress).** A DM prompt, the ruling schema, a starter material list, and a script that runs a set of test pitches with no game around it. It checks whether rulings are consistent, fair and hard to game. See `README.md`.
-3. **Bare simulation.** Generated map, seasons, food energy, worker assignment, recipes and the Kardashev gauge, with debug visuals.
+2. **Invention-loop harness (done).** A DM prompt, the ruling schema, a starter material list, and a script that runs a set of test pitches with no game around it. It checks whether rulings are consistent, fair and hard to game. See `README.md`.
+3. **Bare simulation (first version done).** Generated map, seasons, food energy, worker assignment, recipes and the Kardashev gauge, with debug visuals. Run with `npm run dev`.
 4. **Connect them, then add art.** The first playable: band to first knapped blade, fire and shelter.
 
 ## Parked
