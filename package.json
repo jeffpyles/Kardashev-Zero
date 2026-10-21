@@ -1,0 +1,28 @@
+{
+  "name": "kardashev-zero",
+  "version": "0.1.0",
+  "description": "A 4X / factory game where players invent every technology themselves, judged by an AI game master.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "harness": "tsx harness/run.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffpyles/Kardashev-Zero.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jeffpyles/Kardashev-Zero/issues"
+  },
+  "homepage": "https://github.com/jeffpyles/Kardashev-Zero#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.137.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "type": "module"
+}

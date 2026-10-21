@@ -109,11 +109,11 @@ Player-invented social arrangements are a goal, available from the first settlem
 
 ## Player role, multiplayer and game modes
 
-In single player the player is a guiding intelligence, as in most 4X and Factorio games. In multiplayer, players lead within their societies, Warcraft or StarCraft style, so ownership, trade, law and conflict between players are real.
+The player is a guiding intelligence with a god's-eye view, as in Civilization or StarCraft, not an avatar living among the population. They direct the society's people to gather, build, make and explore. Orders are carried out by people whose skill, morale and knowledge decide how well, so the player knowing how to make bronze doesn't mean the people can yet. In multiplayer, each player guides a whole society, and ownership, trade, diplomacy and conflict happen between societies.
 
-- **Layered roles:** early on, each player leads a band. As societies grow, players hold roles in institutions they've built together (chief, trader, teacher, priest). The wider population is simulated people whose loyalty and cooperation must be earned.
-- **Precedents:** EVE Online's player-driven economy and politics; A Tale in the Desert, where players proposed and voted on laws that changed the game's rules.
-- **Servers as social experiments:** servers developing along different social arrangements can be compared. The valuable part is real players' choices, closer to an economics lab experiment; outcomes driven mainly by simulated people would only reflect our assumptions.
+- **Command, not puppetry:** players issue direct orders, but the population has its own limits: skills learned by practice, morale, food and labor.
+- **Precedents:** Civilization's multiplayer, where each player is a whole civilization; EVE Online's player-driven economy and politics between factions.
+- **Servers as social experiments:** servers developing along different social arrangements can be compared. The valuable part is real players' policy choices for their societies, closer to an economics lab experiment; outcomes driven mainly by simulated people would only reflect our assumptions.
 - **Several scoreboards:** wellbeing, resilience, freedom, inequality, surviving hard times, and speed, not only the race to the Moon, which would reward crash programs that burn their populations.
 - **Modes, Minecraft style:** suggested single-player goals (land on the Moon, found a Mars colony), open sandboxes, private worlds, and large multiplayer worlds, all orbiting long-running flagship worlds where the Solar System is gradually colonized.
 - **Multi-species servers:** players starting on several worlds at equal tech levels, racing, allying and competing across the Solar System.
