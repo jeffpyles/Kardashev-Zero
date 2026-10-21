@@ -12,10 +12,14 @@ export interface PitchCase {
   pitch: Pitch;
   /** Verdicts that count as a pass. */
   expect: Ruling["verdict"][];
+  /** Past rulings to show the DM as case law. */
+  precedents?: Recipe[];
+  /** If set, an accepted recipe must reuse this id (consistency with precedent). */
+  expectRecipeId?: string;
 }
 
-/** A minimal known recipe, for building societies further along. */
-function known(id: string, kind: Recipe["kind"], effect: string, skill = "general"): Recipe {
+/** A minimal known recipe that enables one task, for building societies further along. */
+function known(id: string, kind: Recipe["kind"], skill: string, task: string, effect: string): Recipe {
   return {
     id,
     name: id.replace(/_/g, " "),
@@ -25,7 +29,7 @@ function known(id: string, kind: Recipe["kind"], effect: string, skill = "genera
     laborDays: 0.1,
     skill,
     quality: 0.4,
-    effects: [{ type: "enable_task", task: id, multiplier: null, description: effect }],
+    effects: [{ type: "enable_task", task, multiplier: null, description: effect }],
     prerequisites: [],
     seasons: [],
   };
@@ -35,11 +39,29 @@ function societyWith(...recipes: Recipe[]): Society {
   return { ...startingSociety(), known: recipes, skills: { knapping: 0.2 } };
 }
 
-const hammerstone = known("hammerstone", "item", "A hand-sized cobble used to strike other stones", "knapping");
-const stoneFlake = known("stone_flake", "item", "Sharp flint flakes for cutting", "knapping");
-const fireByFriction = known("hand_drill_fire", "technique", "Make fire by spinning a stick against a softwood board", "fire_making");
-const cordage = known("bark_cord", "item", "Two-ply twisted cord from inner bark", "fiber_work");
-const basket = known("reed_basket", "item", "Loosely woven reed basket for carrying", "fiber_work");
+const hammerstone = known("hammerstone", "item", "knapping", "knap_stone", "Strike stones with a chosen hand-sized cobble");
+const stoneFlake = known("stone_flake", "item", "knapping", "cut_and_butcher", "Cut meat, hide and plants with sharp flint flakes");
+const fireByFriction = known("hand_drill_fire", "technique", "fire_making", "make_fire", "Make fire by spinning a stick against a softwood board");
+const cordage = known("bark_cord", "item", "fiber_work", "bind_and_tie", "Tie and bind with two-ply inner-bark cord");
+const basket = known("reed_basket", "item", "fiber_work", "carry_in_basket", "Carry loads in a loosely woven reed basket");
+
+/** The stone flake recipe as the DM ruled it in an earlier run, used as case law. */
+const stoneFlakePrecedent: Recipe = {
+  id: "stone_flake",
+  name: "Stone flake",
+  kind: "item",
+  inputs: [{ material: "flint", quantity: 1 }],
+  tools: ["river_cobble"],
+  laborDays: 0.02,
+  skill: "knapping",
+  quality: 0.35,
+  effects: [
+    { type: "modify_task", task: "scavenge", multiplier: 1.5, description: "Cut meat and hide off carcasses faster" },
+    { type: "modify_task", task: "forage_plants", multiplier: 1.1, description: "Cut stems and tough plants" },
+  ],
+  prerequisites: [],
+  seasons: [],
+};
 
 export const PITCHES: PitchCase[] = [
   {
@@ -67,6 +89,21 @@ export const PITCHES: PitchCase[] = [
       whyItWorks: "Flint breaks sharp.",
     },
     expect: ["accepted", "examiner_question"],
+  },
+  {
+    id: "flake-precedent",
+    purpose: "Same terse pitch with an earlier flake ruling as case law: should reuse its id and stay close to its costs.",
+    society: startingSociety(),
+    precedents: [stoneFlakePrecedent],
+    pitch: {
+      name: "Rock knife",
+      whatItDoes: "Cuts stuff.",
+      madeOf: "Flint and a rock.",
+      howItsMade: "Smash flint with a rock to get sharp bits.",
+      whyItWorks: "Flint breaks sharp.",
+    },
+    expect: ["accepted"],
+    expectRecipeId: "stone_flake",
   },
   {
     id: "flake-sandstone",
@@ -290,3 +327,9 @@ export const PITCHES: PitchCase[] = [
     expect: ["accepted", "examiner_question"],
   },
 ];
+
+/** Whether a ruling meets a case's expectations. */
+export function passes(c: PitchCase, ruling: Ruling): boolean {
+  if (!c.expect.includes(ruling.verdict)) return false;
+  return !c.expectRecipeId || !ruling.recipe || ruling.recipe.id === c.expectRecipeId;
+}

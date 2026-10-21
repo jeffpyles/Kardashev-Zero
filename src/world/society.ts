@@ -14,8 +14,6 @@ export interface Society {
   season: "spring" | "summer" | "autumn" | "winter";
   /** Accepted recipes, i.e. everything the society knows how to make or do. */
   known: Recipe[];
-  /** Tasks people can be assigned to. Grows as inventions enable new ones. */
-  tasks: Task[];
   /** Craft skill levels, 0 to 1, keyed by skill name. */
   skills: Record<string, number>;
 }
@@ -33,12 +31,40 @@ export const BARE_HANDED_TASKS: Task[] = [
   { id: "scout", name: "Scout", description: "Walk out and look around." },
 ];
 
+/** Starter craft skills. The DM uses these names and adds a new one only when none fits. */
+export const SKILLS = [
+  "knapping",
+  "woodworking",
+  "fiber_work",
+  "fire_making",
+  "hide_work",
+  "bone_work",
+  "food_processing",
+  "hunting",
+  "cultivation",
+  "animal_handling",
+  "building",
+  "clay_work",
+] as const;
+
+/** Bare-handed tasks plus every task the society's known inventions enable. */
+export function availableTasks(society: Society): Task[] {
+  const tasks = [...BARE_HANDED_TASKS];
+  for (const recipe of society.known) {
+    for (const effect of recipe.effects) {
+      if (effect.type === "enable_task" && !tasks.some((t) => t.id === effect.task)) {
+        tasks.push({ id: effect.task, name: effect.task.replace(/_/g, " "), description: effect.description });
+      }
+    }
+  }
+  return tasks;
+}
+
 export function startingSociety(): Society {
   return {
     population: 30,
     season: "spring",
     known: [],
-    tasks: [...BARE_HANDED_TASKS],
     skills: {},
   };
 }

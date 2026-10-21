@@ -31,8 +31,9 @@ export const RecipeSchema = z.object({
   name: z.string(),
   /** An item is a thing people make and use; a technique is a practice or process. */
   kind: z.enum(["item", "technique", "structure"]),
+  /** Material id with quantity in kg, or a known item id with a count. */
   inputs: z.array(z.object({ material: z.string(), quantity: z.number() })),
-  /** Items needed but not consumed. Must already exist in the society. */
+  /** Items needed but not consumed: known items, or unworked natural objects by material id. */
   tools: z.array(z.string()),
   /** Work-days of labor per unit made (or per use, for a technique). */
   laborDays: z.number(),

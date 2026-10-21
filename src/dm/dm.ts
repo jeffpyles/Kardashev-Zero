@@ -3,12 +3,15 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { Society } from "../world/society.js";
-import { systemPrompt, userMessage } from "./prompt.js";
-import { PitchSchema, RulingSchema, type Pitch, type Ruling } from "./schema.js";
+import { systemPrompt, userMessage, type Rigor } from "./prompt.js";
+import { PitchSchema, RulingSchema, type Pitch, type Recipe, type Ruling } from "./schema.js";
 
 export interface DmOptions {
   model?: string;
   effort?: "low" | "medium" | "high" | "xhigh" | "max";
+  rigor?: Rigor;
+  /** Similar past rulings (case law), so repeat pitches get consistent recipes. */
+  precedents?: Recipe[];
 }
 
 export interface DmResult {
@@ -40,8 +43,8 @@ export async function judgePitch(
       effort: options.effort ?? "medium",
       format: betaZodOutputFormat(RulingSchema),
     },
-    system: [{ type: "text", text: systemPrompt(), cache_control: { type: "ephemeral" } }],
-    messages: [{ role: "user", content: userMessage(society, pitch) }],
+    system: [{ type: "text", text: systemPrompt(options.rigor), cache_control: { type: "ephemeral" } }],
+    messages: [{ role: "user", content: userMessage(society, pitch, options.precedents) }],
   });
 
   const usage = {
