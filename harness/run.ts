@@ -48,6 +48,8 @@ interface Run {
 const client = new Anthropic();
 const options: DmOptions = { model: args.model, effort: args.effort as DmOptions["effort"] };
 const repeat = Number(args.repeat);
+const concurrency = Number(args.concurrency);
+if (!(repeat >= 1) || !(concurrency >= 1)) throw new Error("--repeat and --concurrency must be positive numbers");
 const jobs: { c: PitchCase; attempt: number }[] = cases.flatMap((c) =>
   Array.from({ length: repeat }, (_, attempt) => ({ c, attempt })),
 );
@@ -69,7 +71,7 @@ async function runJob({ c, attempt }: { c: PitchCase; attempt: number }): Promis
 async function runAll(): Promise<Run[]> {
   const runs: Run[] = [];
   const queue = [...jobs];
-  const workers = Array.from({ length: Number(args.concurrency) }, async () => {
+  const workers = Array.from({ length: concurrency }, async () => {
     for (let job = queue.shift(); job; job = queue.shift()) runs.push(await runJob(job));
   });
   await Promise.all(workers);
