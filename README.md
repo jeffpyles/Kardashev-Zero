@@ -8,6 +8,27 @@ A 4X and factory-automation game where players invent every technology themselve
 - [World Background: Enceladus](Kardashev%20Zero%20World%20Background%20Enceladus.md): the dark-ocean world.
 - [First Slice Spec](docs/first-slice-spec.md): what we're building first, on Earth, from a band of 30 to the first city.
 
+## Bare simulation
+
+A deterministic, browser-based debug simulation of the first slice. No AI calls happen here; the DM only adds recipes.
+
+```sh
+npm install
+npm run dev     # open the printed localhost URL
+npm test        # simulation tests
+```
+
+| Path | What it is |
+| --- | --- |
+| `src/sim/map.ts` | Seeded, Anatolia-like map: seas on three sides, mountain ranges, a dry plateau with lakes, a volcanic highland, grain-rich foothills |
+| `src/sim/resources.ts` | What each biome holds, seasonal availability, regrowth and spoilage |
+| `src/sim/tasks.ts` | How bare-handed and invention-enabled tasks turn worker-days into goods |
+| `src/sim/sim.ts` | `stepDay`: gathering, production, fire and fuel, eating, population, and the Kardashev gauge |
+| `src/sim/fixtures.json` | Recipes the DM accepted in test runs, unlockable from the debug panel |
+| `src/ui/` | The debug UI: map, gauge, task assignment, stockpile, log |
+
+The Kardashev number uses food eaten (metabolic power) plus fuel burned, so a band of 30 starts near K = −0.25.
+
 ## Invention-loop harness
 
 The first code tests the invention loop on its own, with no game around it: a DM prompt, the ruling schema, starter materials for the Anatolia slice, and a set of test pitches that mix good, vague, wrong and adversarial ideas.

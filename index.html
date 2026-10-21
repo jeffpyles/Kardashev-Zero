@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kardashev Zero</title>
+    <link rel="stylesheet" href="/src/ui/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Kardashev Zero <span class="tag">debug sim</span></h1>
+      <div id="clock"></div>
+      <div id="speed" class="buttons"></div>
+      <label class="seed">Seed <input id="seed" type="number" value="1" /> <button id="new-world">New world</button></label>
+    </header>
+    <main>
+      <section class="map-column">
+        <canvas id="map"></canvas>
+        <div id="legend"></div>
+        <div id="tile-info" class="card"></div>
+      </section>
+      <section class="panel">
+        <div id="gauge" class="card"></div>
+        <div id="tasks" class="card"></div>
+        <div id="stock" class="card"></div>
+        <div id="known" class="card"></div>
+        <div id="log" class="card"></div>
+      </section>
+    </main>
+    <script type="module" src="/src/ui/main.ts"></script>
+  </body>
+</html>
