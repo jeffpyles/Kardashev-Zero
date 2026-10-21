@@ -33,6 +33,15 @@ npm run harness -- --only fire     # just the fire pitches
 npm run harness -- --dry-run       # print a prompt, no API calls
 ```
 
+Without an API key, another model (such as a Claude Code subagent) can stand in for the DM. Export the prompts, have it write one ruling per pitch as `<case id>.json` following `ruling.schema.json`, then score them:
+
+```sh
+npm run harness -- --export /tmp/dm      # system.md, ruling.schema.json, pitch-<id>.md
+npm run harness -- --score /tmp/dm/results
+```
+
+`--rigor strict` switches from the default casual rigor, where the DM fills in obvious small steps, to strict, where every step that matters must be stated.
+
 Reports land in `harness/results/` (git-ignored). Each lists pass or fail per pitch, then the full ruling, flaws, questions and recipe, so you can judge the rulings as well as the verdicts.
 
 The DM defaults to `claude-opus-5-5` at medium effort. `--model` and `--effort` let you compare cheaper settings, since cost per ruling matters for the game's economics.

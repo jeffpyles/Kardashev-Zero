@@ -2,8 +2,18 @@
 // society state and the pitch go in the user message.
 
 import { MATERIALS, type Material } from "../world/materials.js";
-import type { Society } from "../world/society.js";
-import type { Pitch } from "./schema.js";
+import { availableTasks, SKILLS, type Society } from "../world/society.js";
+import type { Pitch, Recipe } from "./schema.js";
+
+/** How much a pitch must spell out. A world setting, so it lives in the cached system prompt. */
+export type Rigor = "casual" | "strict";
+
+const RIGOR_RULES: Record<Rigor, string> = {
+  casual:
+    "This world uses casual rigor. Fill in small, obvious steps that a knowledgeable person would take for granted (choosing a straight dry stick, shaping wood by rubbing it on rough stone) instead of asking about them. Ask a question only when a step that decides whether the design works is missing or wrong.",
+  strict:
+    "This world uses strict rigor. Every step that decides whether the design works must be stated in the pitch. Ask about any gap, including small ones.",
+};
 
 function materialLine(m: Material): string {
   const props = [
@@ -17,7 +27,7 @@ function materialLine(m: Material): string {
   return `- ${m.id} (${m.name}): ${props.join(", ")}. ${m.occurrence}${m.notes ? ` ${m.notes}` : ""}`;
 }
 
-export function systemPrompt(): string {
+export function systemPrompt(rigor: Rigor = "casual"): string {
   return `You are the game master (DM) of Kardashev Zero, a strategy and factory game in which players invent every technology themselves. There is no tech tree. A player pitches an invention; you judge whether the society could really make it with what it has, in the world's real physics, and if so you turn it into a recipe the game's simulation runs.
 
 ## The world
@@ -28,6 +38,10 @@ Materials found in the region (properties are visible to players):
 ${MATERIALS.map(materialLine).join("\n")}
 
 Other common things of the real region (animals, plants, terrain) exist too; judge them by real-world knowledge.
+
+## Rigor
+
+${RIGOR_RULES[rigor]}
 
 ## How to rule
 
@@ -48,18 +62,21 @@ Principles:
 7. Slow things stay slow. Domestication and selective breeding take generations: rule a first step (for example "feeding wolves near camp" or "replanting the best seeds") as a technique with small effects, never as instant domesticated animals or crops.
 8. Abstract hazards. If a pitch involves weapons or chemistry that would be dangerous as real-world instructions, rule on the in-game effect and keep the recipe abstract. Never spell out a real-world method beyond what the player wrote.
 9. Explain briefly and plainly, as a mentor. The explanation is where the player learns. Keep it to a few sentences.
-10. Be consistent. Similar pitches in similar societies should get similar rulings.
+10. Be consistent. Similar pitches in similar societies should get similar rulings. When a past ruling in the case law covers the same invention, reuse its recipe id, and keep its costs and effects close unless this pitch is genuinely better or worse.
 
-Recipe conventions: ids and material ids are snake_case; use material ids from the list above for inputs; tools are ids of known items or material ids of unworked natural objects; skill is a craft name such as "knapping", "woodworking", "fiber_work", "fire_making"; seasons is empty unless the work only happens in some seasons; recipe is null unless the verdict is accepted.`;
+Recipe conventions: ids and material ids are snake_case; inputs use material ids from the list above or ids of known items; input quantities are in kg for materials and a count for known items; tools are ids of known items or material ids of unworked natural objects; skill is one of ${SKILLS.join(", ")}, adding a new snake_case skill only when none fits; seasons is empty unless the work only happens in some seasons; recipe is null unless the verdict is accepted.`;
 }
 
-export function userMessage(society: Society, pitch: Pitch): string {
+export function userMessage(society: Society, pitch: Pitch, precedents: Recipe[] = []): string {
   const known = society.known.length
     ? society.known
         .map((r) => `- ${r.id} (${r.kind}, quality ${r.quality}): ${r.effects.map((e) => e.description).join("; ")}`)
         .join("\n")
     : "- nothing yet";
-  const tasks = society.tasks.map((t) => `- ${t.id}: ${t.description}`).join("\n");
+  const tasks = availableTasks(society).map((t) => `- ${t.id}: ${t.description}`).join("\n");
+  const caseLaw = precedents.length
+    ? precedents.map((r) => `- ${r.id} (${r.name}): ${JSON.stringify(r)}`).join("\n")
+    : "- none relevant";
   const skills = Object.entries(society.skills)
     .map(([k, v]) => `${k} ${v}`)
     .join(", ");
@@ -75,6 +92,11 @@ Tasks people can be assigned to:
 ${tasks}
 
 Skills: ${skills || "none practiced yet"}
+
+## Case law
+
+Past accepted rulings in this world that may cover similar inventions:
+${caseLaw}
 
 ## The pitch
 
